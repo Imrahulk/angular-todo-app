@@ -46,6 +46,7 @@ export class TodoComponent implements OnInit, OnChanges {
   }
   toggleTodo(): void {
     this.todoService.toggleTodo(this.todoProps.id);
+    console.log('toggleTodo');
   }
   changeText(event: Event): void {
     const value = (event.target as HTMLInputElement).value;

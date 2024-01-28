@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TodosService } from '../../services/todos.service';
 import { Observable, map } from 'rxjs';
+import { FilterEnum } from '../../types/filter.enum';
 
 @Component({
   selector: 'app-todos-footer',
@@ -9,13 +10,25 @@ import { Observable, map } from 'rxjs';
 export class FooterComponent {
   noTodoClass$!: Observable<boolean>;
   activeCount$: Observable<number>;
+  filter$: Observable<FilterEnum>;
+  itemsLeftText$: Observable<string>;
+  filterEnum = FilterEnum;
   constructor(private todosService: TodosService) {
     this.activeCount$ = this.todosService.todos$.pipe(
       map((todos) => todos.filter((todo) => !todo.isCompleted).length)
     );
+    this.itemsLeftText$ = this.activeCount$.pipe(
+      map((activeCount) => `item${activeCount !== 1 ? 's' : ''} left`)
+    );
     this.noTodoClass$ = this.todosService.todos$.pipe(
       map((todos) => todos.length === 0)
     );
+    this.filter$ = this.todosService.filter$;
+  }
+  changeFilter(event: Event, filter: FilterEnum): void {
+    event.preventDefault();
+    console.log('changeFilter', filter);
+    this.todosService.changeFilter(filter);
   }
 }
 //sadfaasdfdsa

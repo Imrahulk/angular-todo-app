@@ -28,4 +28,7 @@ export class TodosService {
     this.todos$.next(updatedTodos);
     console.log('updatedtodos', updatedTodos);
   }
+  changeFilter(filter: FilterEnum): void {
+    this.filter$.next(filter);
+  }
 }
